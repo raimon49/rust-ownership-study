@@ -28,7 +28,8 @@ fn test_rust_ownership() {
 
     // nameの所有権をcomposersからローカル変数に移すことはできなくてエラーになる
     // let first_name = composers[0].name;
-    let first_name = std::mem::replace(&mut composers[0].name, None); // nameはOptionのためNoneに置き換えが可能
+    // let first_name = std::mem::replace(&mut composers[0].name, None); // nameはOptionのためNoneに置き換えが可能
+    let first_name = composers[0].name.take(); // takeメソッドはNoneへのreplaceを行うショートハンド
     assert_eq!(first_name, Some("Palestrina".to_string()));
     assert_eq!(composers[0].name, None);
     assert_eq!(composers[0].birth, 1525);
