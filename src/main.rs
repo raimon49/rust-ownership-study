@@ -1,3 +1,5 @@
+use std::rc::Rc;
+
 fn main() {
     println!("Hello, world!");
 }
@@ -33,4 +35,17 @@ fn test_rust_ownership() {
     assert_eq!(first_name, Some("Palestrina".to_string()));
     assert_eq!(composers[0].name, None);
     assert_eq!(composers[0].birth, 1525);
+
+    // 参照カウント型で所有権を共有する
+    let s: Rc<String> = Rc::new("shirataki".to_string()); // Rc型はイミュータブルで作成される
+    let t: Rc<String> = s.clone(); // sの参照カウントが+1
+    let u: Rc<String> = s.clone(); // sの参照カウントが+1
+
+    // StringのメソッドはRc<String>にも直接実行できる
+    assert!(s.contains("shira"));
+    assert_eq!(t.find("taki"), Some(5));
+    println!("{} are quite chewy, almost bouncy, but lack flavor", u);
+
+    // Rc<String>は不変であるためテキストの追加はコンパイラに拒否される
+    // s.push_str(" noodles");
 }
